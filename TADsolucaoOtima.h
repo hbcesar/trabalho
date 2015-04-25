@@ -1,5 +1,4 @@
 void otima(int n, long int p, float** matriz);
-int* alocarVetor(int n);
 void visit(int k, int n, int* valor, int** permutacoes);
 void addItem(int* vetor, int** permutacoes, int n);
 void calcularOtima(float** matriz, int** permutacoes, int n, long int p);

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <float.h>
 #include "TADsolucaoOtima.h"
-#include "TADalgoritmoGenetico.h"
+#include "TADfuncoesComuns.h"
 
 void otima(int n, long int p, float** matriz){
 	int* valor;
@@ -16,19 +16,6 @@ void otima(int n, long int p, float** matriz){
  	//imprimeCombinacoes(permutacoes, n, p);
  	calcularOtima(matriz, permutacoes, n, p);
  	liberarVetores(permutacoes, valor, p);
-}
-
-int* alocarVetor(int n){
-	int i;
-	int* vet;
-
-	vet = (int*)malloc(n*sizeof(int));
-
-	for(i=0; i<n; i++){
-		vet[i] = 0;
-	}
-
-	return vet;
 }
 
 void visit(int k, int n, int* valor, int** permutacoes){

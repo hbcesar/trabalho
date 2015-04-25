@@ -9,6 +9,38 @@ long int fatorial(int n){
 		return (n*fatorial(n-1));
 }
 
+int* alocarVetor(int n){
+	int i;
+	int* vet;
+
+	vet = (int*)malloc(n*sizeof(int));
+
+	for(i=0; i<n; i++){
+		vet[i] = 0;
+	}
+
+	return vet;
+}
+
+float** alocarMatriz(int n){
+	float** matriz;
+	int i, j;
+
+	matriz = (float**)malloc(n*sizeof(float*));
+
+	for(i=0; i<n; i++){
+		matriz[i]=(float*)malloc(n*sizeof(float));
+	}
+
+	for(i=0; i<n; i++){
+		for(j=0; j<n; j++){
+			matriz[i][j]=0;
+		}
+	}
+
+	return matriz;
+}
+
 float custo(int ** matriz, int* vetor, int n){
 	int i;
 	int a, b;

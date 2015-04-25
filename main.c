@@ -1,32 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "TADsolucaoOtima.h"
 #include "TADfuncoesComuns.h"
+#include "TADsolucaoOtima.h"
+#include "TADnn.h"
 #include "TADalgoritmoGenetico.h"
 #define exato 1
 #define nn 2
 #define guloso 3
 #define genetico 4
 
-float** alocarMatriz(int n){
-	float** matriz;
-	int i, j;
 
-	matriz = (float**)malloc(n*sizeof(float*));
-
-	for(i=0; i<n; i++){
-		matriz[i]=(float*)malloc(n*sizeof(float));
-	}
-
-	for(i=0; i<n; i++){
-		for(j=0; j<n; j++){
-			matriz[i][j]=0;
-		}
-	}
-
-	return matriz;
-}
 
 void lerMatriz(int n, float** matriz){
 	int i, j;
@@ -92,7 +76,9 @@ int main(int argc, char* argv []){
 	tipo = defineTipo(argv[2]);
 	if(tipo == exato)
 		otima(n, p, matriz);
-	else if(tipo == nn){}
+	else if(tipo == nn){
+		nearestNeighbor(n, matriz);
+	}
 		//chama funcao nn
 	else if (tipo == guloso){}
 		//chama funcao guloso
