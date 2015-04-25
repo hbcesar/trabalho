@@ -2,16 +2,18 @@
 #include <stdlib.h>
 #include <float.h>
 #include "TADsolucaoOtima.h"
+#include "TADalgoritmoGenetico.h"
 
 void otima(int n, long int p, float** matriz){
 	int* valor;
 	int** permutacoes;
+	int** filhos;
 
 	valor = alocarVetor(n);
 	permutacoes = (int**) malloc(p*sizeof(int*));
 
  	visit(0, n, valor, permutacoes);
- 	imprimeCombinacoes(permutacoes, n, p);
+ 	//imprimeCombinacoes(permutacoes, n, p);
  	calcularOtima(matriz, permutacoes, n, p);
  	liberarVetores(permutacoes, valor, p);
 }
@@ -93,7 +95,11 @@ void calcularOtima(float** matriz, int** permutacoes, int n, long int p){
 		soma = 0;
 	}
 
-	printf("A melhor rota custa %.2f \n", menor);
+	for(i=0; i<n; i++){
+		printf("%d\n", permutacoes[indice_menor][i]);
+	}
+
+	printf("%.2f\n*\n", menor);
 
 }
 

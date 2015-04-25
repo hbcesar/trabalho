@@ -3,6 +3,7 @@ all: METODOS
 METODOS:
 	gcc -c funcoesComuns.c
 	gcc -c solucaoOtima.c
+	gcc -c algoritmoGenetico.c
 	gcc -c main.c
-	gcc funcoesComuns.o solucaoOtima.o main.o -o executavel
+	gcc funcoesComuns.o solucaoOtima.o algoritmoGenetico.o main.o -o executavel
 	
