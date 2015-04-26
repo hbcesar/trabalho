@@ -77,7 +77,7 @@ int main(int argc, char* argv []){
 	if(tipo == exato)
 		otima(n, p, matriz);
 	else if(tipo == nn){
-		nearestNeighbor(n, matriz);
+		nearestNeighbor(n, n, matriz);
 	}
 		//chama funcao nn
 	else if (tipo == guloso){}
