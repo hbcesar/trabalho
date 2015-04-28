@@ -76,4 +76,3 @@ int* nearestNeighbor(int primeira_cidade, int n, float** matriz, int* valor){
 	return caminho;
 
 }
-
