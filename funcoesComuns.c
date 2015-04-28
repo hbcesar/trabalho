@@ -41,7 +41,17 @@ float** alocarMatriz(int n){
 	return matriz;
 }
 
-float custo(int ** matriz, int* vetor, int n){
+void liberarMatriz(int n, float** matriz){
+	int i;
+
+	for(i=0; i<n; i++){
+		free(matriz[i]);
+	}
+
+	free(matriz);
+}
+
+float custo(float** matriz, int* vetor, int n){
 	int i;
 	int a, b;
 	float soma = 0;
@@ -58,5 +68,18 @@ float custo(int ** matriz, int* vetor, int n){
 	soma = soma + matriz[a][b];
 
 	return soma;
+
+}
+
+void imprimirCaminho(int* caminho, float soma, int n){
+	int i;
+
+	for(i=0; i<n; i++){
+		printf("%d\n", caminho[i]);
+	}
+
+	printf("%.2f\n", soma);
+
+	printf("*\n");
 
 }

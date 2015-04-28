@@ -82,11 +82,7 @@ void calcularOtima(float** matriz, int** permutacoes, int n, long int p){
 		soma = 0;
 	}
 
-	for(i=0; i<n; i++){
-		printf("%d\n", permutacoes[indice_menor][i]);
-	}
-
-	printf("%.2f\n*\n", menor);
+	imprimirCaminho(permutacoes[indice_menor], menor, n);
 
 }
 

@@ -4,10 +4,11 @@
 #include "TADfuncoesComuns.h"
 
 
-float menor (float* vetor, int n, int* indice_menor){
+float menor(float* vetor, int n, int* indice_menor){
 	float menor = FLT_MAX;
 	int i;
-	for  (i=0;i<n;i++){
+
+	for(i=0;i<n;i++){
 		if (vetor[i] < menor){
 			menor = vetor[i];
 			(*indice_menor) = i;
@@ -31,7 +32,8 @@ float** copiarMatriz(int n, float** matriz){
 }
 
 
-void nearestNeighbor(int primeira_cidade, int n, float** matriz){
+
+int* nearestNeighbor(int primeira_cidade, int n, float** matriz, int* valor){
 	float** matriz_aux;
 	float* vetor;
 	int* caminho = (int*)malloc(n*sizeof(int));
@@ -41,20 +43,32 @@ void nearestNeighbor(int primeira_cidade, int n, float** matriz){
 	matriz_aux = copiarMatriz(n, matriz);
 
 	for (i=0;i<n-1;i++){
+		//inicia construindo o caminho, gravando a primeira cidade
+		caminho[i]=indice_menor;
+
 		for (j=0;j<n;j++){
 			matriz_aux[j][indice_menor] = FLT_MAX;
 		}
 
-		vetor = matriz_aux[indice_menor];
-		aux = menor(vetor, n, &indice_menor); //acha o menor valor da linha da matriz
+	 	vetor = matriz_aux[indice_menor];
+	 	aux = menor(vetor, n, &indice_menor); //acha o menor valor da linha da matriz
 		soma = soma + aux; // soma esses valores
 
-		caminho[i]=indice_menor;
-	}
+		
+	 }
+
+	//recebe o ultimo indice, ou seja, a ultima cidade do caminho antes de voltar para o ciclo
+	caminho[i]=indice_menor;
 
 	soma = soma + matriz[indice_menor][primeira_cidade-1];
+	
+	if(valor != NULL)
+		(*valor) = soma;
 
-	printf("%.2f \n", soma);
+	liberarMatriz(n, matriz_aux);
+
+
+	return caminho;
 
 }
 

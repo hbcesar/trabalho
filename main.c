@@ -34,16 +34,6 @@ void imprimirMatriz(int n, float** matriz){
 	}
 }
 
-void liberarMatriz(int n, float** matriz){
-	int i;
-
-	for(i=0; i<n; i++){
-		free(matriz[i]);
-	}
-
-	free(matriz);
-}
-
 int defineTipo(char* tipo){
 	if(strcmp(tipo, "exato") == 0)
 		return exato;
@@ -58,9 +48,9 @@ int defineTipo(char* tipo){
 
 int main(int argc, char* argv []){
 	float** matriz = NULL;
-	int n, tipo;
+	int n, tipo, valor = 0;
 	long int p = 0;
-	int** filhos;
+	int* caminho = NULL;
 
 	//obtem o numero de linhas da matriz
 	n = atoi(argv[1]);
@@ -74,16 +64,18 @@ int main(int argc, char* argv []){
 	//imprimirMatriz(n, matriz);
 	
 	tipo = defineTipo(argv[2]);
+	
 	if(tipo == exato)
 		otima(n, p, matriz);
 	else if(tipo == nn){
-		nearestNeighbor(n, n, matriz);
+		caminho = nearestNeighbor(0, n, matriz, &valor);
+		imprimirCaminho(caminho, valor, n);
 	}
-		//chama funcao nn
 	else if (tipo == guloso){}
 		//chama funcao guloso
-	else if (tipo == genetico){}
-		//chama funcao genetico
+	else if (tipo == genetico){
+		algoritmoGenetico(matriz, n);
+	}
 
 	//libera a memoria alocada para matriz
 	liberarMatriz(n, matriz);
