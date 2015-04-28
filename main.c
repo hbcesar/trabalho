@@ -68,7 +68,7 @@ int main(int argc, char* argv []){
 	if(tipo == exato)
 		otima(n, p, matriz);
 	else if(tipo == nn){
-		caminho = nearestNeighbor(0, n, matriz, &valor);
+		caminho = nearestNeighbor(1, n, matriz, &valor);
 		imprimirCaminho(caminho, valor, n);
 	}
 	else if (tipo == guloso){}
