@@ -16,6 +16,8 @@ void algoritmoGenetico(float** matriz, int n){
 
 	caminhos = criaFilhos(vet1, vet2, n);
 
+	mutacao(caminhos, n);
+
 	// for(i=0; i < n; i++){
 	// 	printf("%d ", vet1[i]);
 	// }
@@ -64,7 +66,7 @@ int** criaFilhos(int* vet1, int* vet2, int n){
 	dividirVetor(n, &parte1, &parte2);
 	// printf("%d %d \n", parte1, parte2);
 
-	// zera os vetores antes de começar prq C é uma bosta
+	// zera os vetores antes de começar, apenas por garantia
 	for(i=0; i<n; i++){
 		filho1[i] = filho2[i] = 0;
 	}
@@ -75,8 +77,7 @@ int** criaFilhos(int* vet1, int* vet2, int n){
 		filho2[i]=vet2[i];
 	}
 
-	// copiados, vamos fazer o cruzamento hmmmmm safadinho atravez de um algoritmo
-	// que pensa que sou tuas nega
+	// copiados, faz-se o cruzamento
 	// primeiro do vetor2 com filho 1
 	for(i=0, k=0; i<n; i++){
 		for(j=parte1; j<parte2; j++){
@@ -94,7 +95,7 @@ int** criaFilhos(int* vet1, int* vet2, int n){
 		flag = 1;
 	}
 
-	//then, com o vetor1 e filho2
+	//entao, com o vetor1 e filho2
 	for(i=0, k=0; i<n; i++){
 		for(j=parte1; j<parte2; j++){
 			if(vet1[i] == filho2[j]){
@@ -116,4 +117,17 @@ int** criaFilhos(int* vet1, int* vet2, int n){
 	lista_filhos[1]=filho2;
 
 	return lista_filhos;
+}
+
+int** mutacao(int** filhos, int n){
+	int p1=0, p2=0;
+
+	while( p1 == p2){
+		p1 = random() % n;
+		p2 = random() % n;
+	} 
+
+	printf("%d e %d\n", p1, p2);
+
+	//troca os filhinhos de lugar
 }
