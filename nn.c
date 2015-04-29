@@ -34,26 +34,24 @@ float** copiarMatriz(int n, float** matriz){
 
 
 int* nearestNeighbor(int primeira_cidade, int n, float** matriz, int* valor){
-	float* vetor_aux = (float*)malloc(n*sizeof(float));
+	float** matriz_aux;
 	float* vetor;
 	int* caminho = (int*)malloc(n*sizeof(int));
 	int i, j, indice_menor = primeira_cidade-1; //esse -1 serve para "adequar" a leitura de vetores/matrizes
 	float soma = 0, aux;
 
-
-	for(i=0; i<n; i++){
-		vetor_aux[i]=matriz[i][primeira_cidade-1];
-	}
+	matriz_aux = alocarMatriz(n);
+	matriz_aux = copiarMatriz(n, matriz);
 
 	for (i=0;i<n-1;i++){
 		//inicia construindo o caminho, gravando a primeira cidade
 		caminho[i]=indice_menor;
 
 		for (j=0;j<n;j++){
-			matriz[j][indice_menor] = FLT_MAX;
+			matriz_aux[j][indice_menor] = FLT_MAX;
 		}
 
-	 	vetor = matriz[indice_menor];
+	 	vetor = matriz_aux[indice_menor];
 	 	aux = menor(vetor, n, &indice_menor); //acha o menor valor da linha da matriz
 		soma = soma + aux; // soma esses valores
 
@@ -64,14 +62,13 @@ int* nearestNeighbor(int primeira_cidade, int n, float** matriz, int* valor){
 	caminho[i]=indice_menor;
 
 	//soma a volta para a primeira cidade
-	soma = soma + vetor_aux[indice_menor];
+	soma = soma + matriz[indice_menor][primeira_cidade-1];
 	
 	if(valor != NULL)
 		(*valor) = soma;
 
 	//libera vetores temporariamente alocados para calculo
-	free(vetor_aux);
-	free(vetor);
+	liberarMatriz(n, matriz_aux);
 
 	return caminho;
 

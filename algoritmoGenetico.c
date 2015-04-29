@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "TADalgoritmoGenetico.h"
 #include "TADnn.h"
 #include "TADfuncoesComuns.h"
@@ -18,29 +19,11 @@ void algoritmoGenetico(float** matriz, int n){
 
 	mutacao(caminhos, n);
 
-	// for(i=0; i < n; i++){
-	// 	printf("%d ", vet1[i]);
-	// }
-	// printf("\n");
-	// for(i=0; i < n; i++){
-	// 	printf("%d ", vet2[i]);
-	// }
-	// printf("\n");
-	// for(i=0; i < n; i++){
-	// 	printf("%d ", caminhos[0][i]);
-	// }
-	// printf("\n");
-
-	// for(i=0; i < n; i++){
-	// 	printf("%d ", caminhos[1][i]);
-	// }
-	// printf("\n");
 	valor1 = custo(matriz, caminhos[0], n);
 	valor2 = custo(matriz, caminhos[1], n);
 
 	imprimirCaminho(caminhos[0], valor1, n);
 	imprimirCaminho(caminhos[1], valor2, n);
-
 }
 
 void dividirVetor(int n, int* parte1, int* parte2){
@@ -119,15 +102,25 @@ int** criaFilhos(int* vet1, int* vet2, int n){
 	return lista_filhos;
 }
 
-int** mutacao(int** filhos, int n){
+void mutacao(int** filhos, int n){
 	int p1=0, p2=0;
+	int aux;
 
+	srand(time(NULL));
 	while( p1 == p2){
-		p1 = random() % n;
-		p2 = random() % n;
+		p1 = rand() % n;
+		p2 = rand() % n;
 	} 
 
 	printf("%d e %d\n", p1, p2);
 
-	//troca os filhinhos de lugar
+	//faz mutacao no primeiro filho
+	aux = filhos[0][p1];
+	filhos[0][p1]=filhos[0][p2];
+	filhos[0][p2]=aux;
+
+	//faz mutacao no segundo filho
+	aux = filhos[1][p1];
+	filhos[1][p1]=filhos[1][p2];
+	filhos[1][p2]=aux;
 }

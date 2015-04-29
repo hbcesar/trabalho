@@ -70,6 +70,8 @@ int main(int argc, char* argv []){
 	else if(tipo == nn){
 		caminho = nearestNeighbor(1, n, matriz, &valor);
 		imprimirCaminho(caminho, valor, n);
+		caminho = nearestNeighbor(n, n, matriz, &valor);
+		imprimirCaminho(caminho, valor, n);
 	}
 	else if (tipo == guloso){}
 		//chama funcao guloso
