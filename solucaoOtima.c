@@ -11,8 +11,10 @@ void otima(int n, long int p, float** matriz){
 	valor = alocarVetor(n);
 	permutacoes = (int**) malloc(p*sizeof(int*));
 
-	if(permutacoes == NULL)
+	if(permutacoes == NULL){
 		printf("ERRO: Nao há espaço suficiente em memória\n");
+		exit(1);
+	}
 
  	visit(0, n, valor, permutacoes);
  	//imprimeCombinacoes(permutacoes, n, p);

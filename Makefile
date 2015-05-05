@@ -1,5 +1,5 @@
 all: METODOS
-	./executavel 12 exato < teste12.txt
+	./executavel 14 exato < teste14.txt
 METODOS:
 	gcc -c funcoesComuns.c
 	gcc -c solucaoOtima.c
