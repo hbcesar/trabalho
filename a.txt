@@ -1,5 +1,0 @@
-gcc -c funcoesComuns.c
-gcc -c solucaoOtima.c
-gcc -c main.c
-gcc funcoesComuns.o solucaoOtima.o main.o -o executavel
-./executavel 14 exato < teste14.txt
