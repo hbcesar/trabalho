@@ -48,15 +48,15 @@ Cidade* inserirLista(Interface* lista, Cidade* novo, int posicao){
 
 float calcularCusto(float** matriz, Cidade* a, Cidade* b, Cidade* c){
 	int i=0, j=0;
-	float custo;
+	float custo = 0;
 
 	i=a->numero;
 	j=b->numero;
-	custo = matriz[i-1][j-1];
+	custo = matriz[i][j];
 
 	i=b->numero;
 	j=c->numero;
-	custo = custo + matriz[i-1][j-1];
+	custo = custo + matriz[i][j];
 
 	return custo;
 }
@@ -70,15 +70,19 @@ float custoTotal(Interface* lista, float** matriz){
 	while(aux2->prox != NULL){
 		i=aux->numero;
 		j=aux2->numero;
-		custo = custo + matriz[i-1][j-1];
+		custo = custo + matriz[i][j];
 
 		aux = aux->prox;
 		aux2 = aux2->prox;
 	}
 
+	i=aux->numero;
+	j=aux2->numero;
+	custo = custo + matriz[i][j];
+
 	i=lista->ultima->numero;
 	j=lista->primeira->numero;
-	custo = custo + matriz[i-1][j-1];
+	custo = custo + matriz[i][j];
 
 	return custo;
 }

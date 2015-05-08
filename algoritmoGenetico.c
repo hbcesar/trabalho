@@ -31,6 +31,8 @@ void algoritmoGenetico(float** matriz, int n){
 
 		valor1 = custo(matriz, caminhos[0], n);
 		valor2 = custo(matriz, caminhos[1], n);
+
+		i++;
 	}
 
 	imprimirCaminho(caminhos[0], valor1, n);
