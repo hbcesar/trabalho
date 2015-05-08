@@ -73,3 +73,13 @@ int* nearestNeighbor(int primeira_cidade, int n, float** matriz, int* valor){
 	return caminho;
 
 }
+
+void executarNN(int n, float** matriz){
+		int* caminho = NULL;
+		int valor = 0;
+
+		caminho = nearestNeighbor(1, n, matriz, &valor);
+		imprimirCaminho(caminho, valor, n);
+		caminho = nearestNeighbor(n, n, matriz, &valor);
+		imprimirCaminho(caminho, valor, n);
+}

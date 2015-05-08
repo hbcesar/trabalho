@@ -49,9 +49,9 @@ int defineTipo(char* tipo){
 
 int main(int argc, char* argv []){
 	float** matriz = NULL;
-	int n, tipo, valor = 0;
+	int n, tipo;
 	long int p = 0;
-	int* caminho = NULL;
+
 
 	//obtem o numero de linhas da matriz
 	n = atoi(argv[1]);
@@ -69,10 +69,7 @@ int main(int argc, char* argv []){
 	if(tipo == exato)
 		otima(n, p, matriz);
 	else if(tipo == nn){
-		caminho = nearestNeighbor(1, n, matriz, &valor);
-		imprimirCaminho(caminho, valor, n);
-		caminho = nearestNeighbor(n, n, matriz, &valor);
-		imprimirCaminho(caminho, valor, n);
+		executarNN(n, matriz);
 	}
 	else if (tipo == guloso){
 		metodo_guloso(matriz, n);
