@@ -10,17 +10,28 @@ void algoritmoGenetico(float** matriz, int n){
 	int* vet1;
 	int* vet2;
 	int** caminhos;
-	int valor1, valor2;
+	float valor1, valor2;
+	float menor1, menor2;
 
 	vet1 = nearestNeighbor(1, n, matriz, NULL);
 	vet2 = nearestNeighbor(n, n, matriz, NULL);
 
-	caminhos = criaFilhos(vet1, vet2, n);
+	menor1 = custo(matriz, vet1, n);
+	menor2 = custo(matriz, vet2, n);
 
+	caminhos = criaFilhos(vet1, vet2, n);
 	mutacao(caminhos, n);
 
 	valor1 = custo(matriz, caminhos[0], n);
 	valor2 = custo(matriz, caminhos[1], n);
+
+	while (i<99 || ((valor1 < menor1) || (valor2 < menor2))){
+		caminhos = criaFilhos(caminhos[0], caminhos[1], n);
+		mutacao(caminhos, n);
+
+		valor1 = custo(matriz, caminhos[0], n);
+		valor2 = custo(matriz, caminhos[1], n);
+	}
 
 	imprimirCaminho(caminhos[0], valor1, n);
 	imprimirCaminho(caminhos[1], valor2, n);
@@ -110,9 +121,7 @@ void mutacao(int** filhos, int n){
 	while( p1 == p2){
 		p1 = rand() % n;
 		p2 = rand() % n;
-	} 
-
-	printf("%d e %d\n", p1, p2);
+	}
 
 	//faz mutacao no primeiro filho
 	aux = filhos[0][p1];

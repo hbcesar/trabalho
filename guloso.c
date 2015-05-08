@@ -4,7 +4,7 @@
 #include "TADfuncoesComuns.h"
 #include "TADguloso.h"
 
-void alocarLista(){
+Interface* alocarLista(int n){
 	Interface* novo = (Interface*)malloc(sizeof(Interface));
 
 	novo->primeira = criarCidade(0);
@@ -27,7 +27,13 @@ Cidade* inserirLista(Interface* lista, Cidade* novo, int posicao){
 	Cidade* aux = lista->primeira;
 	int i;
 
-	for(i=0; i<posicao; i++){
+	if(posicao == 0){
+		novo->prox = aux;
+		lista->primeira = novo;
+		return lista->primeira;
+	}
+
+	for(i=0; i<posicao-1; i++){
 		aux = aux->prox;
 	}
 
@@ -37,10 +43,10 @@ Cidade* inserirLista(Interface* lista, Cidade* novo, int posicao){
 	if(lista->ultima->prox != NULL)
 		lista->ultima = lista->ultima->prox;
 
-	return lista;
+	return lista->primeira;
 }
 
-float calcularCusto(Cidade* a, Cidade* b, Cidade* c){
+float calcularCusto(float** matriz, Cidade* a, Cidade* b, Cidade* c){
 	int i=0, j=0;
 	float custo;
 
@@ -55,7 +61,7 @@ float calcularCusto(Cidade* a, Cidade* b, Cidade* c){
 	return custo;
 }
 
-float custoTotal(Interface* lista){
+float custoTotal(Interface* lista, float** matriz){
 	float custo = 0.0;
 	int i=0,j=0;
 	Cidade* aux = lista->primeira;
@@ -77,25 +83,40 @@ float custoTotal(Interface* lista){
 	return custo;
 }
 
-void guloso(float** matriz, int n){
+void liberarLista(Interface* lista){
+	Cidade* aux = lista->primeira;
+	Cidade* aux2 = aux->prox;
+
+	while(aux2 != NULL){
+		free(aux);
+		aux = aux2;
+		aux2 = aux2->prox;
+	}
+
+	free(aux); //libera o ultimo no da lista
+	free(lista); //libera interface
+
+}
+
+void metodo_guloso(float** matriz, int n){
 	Interface* lista;
 	Cidade* novo;
-	Cidade *aux; *aux2;
+	Cidade *aux, *aux2;
 	int i, j, posicao=0;
-	float custo = 0.0;
+	float custo = 0.0, menor = 0.0;
 
-	lista = alocarLista();
+	lista = alocarLista(n);
 
 	for(i=1; i<n-1; i++){
 		novo = criarCidade(i);
 		aux = lista->primeira;
 		aux2 = aux->prox;
 
-		menor = calcularCusto(lista->ultima, novo, lista->primeira);
+		menor = calcularCusto(matriz, lista->ultima, novo, lista->primeira);
 		j=0;
 
 		while(aux2->prox != NULL){
-			custo = calcularCusto(aux, novo, aux2);
+			custo = calcularCusto(matriz, aux, novo, aux2);
 			aux = aux2;
 			aux2 = aux2->prox;
 			if(custo < menor){
@@ -105,18 +126,22 @@ void guloso(float** matriz, int n){
 			j++;
 		}
 
-
 		lista->primeira = inserirLista(lista, novo, posicao);
 	}
+
+	aux = lista->primeira;
+	custo = custoTotal(lista, matriz);
 	
-	// for (aux2=listaaux;aux2!=NULL;aux2=aux2->prox){
-	// 	printf("%d \n",aux2->numero);
-	// }
+	while(aux!=NULL){
+	 	printf("%d \n",aux->numero);
+	 	aux = aux->prox;
+	}
 
-	// printf("%d \n",custo_total);
-	// printf("*\n");
+	printf("%.2f \n",custo);
+	printf("*\n");
 
-	//LIBERAR LISTA
+	liberarLista(lista);
 }
+
 
 

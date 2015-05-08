@@ -4,6 +4,7 @@
 #include "TADfuncoesComuns.h"
 #include "TADsolucaoOtima.h"
 #include "TADnn.h"
+#include "TADguloso.h"
 #include "TADalgoritmoGenetico.h"
 #define exato 1
 #define nn 2
@@ -73,8 +74,9 @@ int main(int argc, char* argv []){
 		caminho = nearestNeighbor(n, n, matriz, &valor);
 		imprimirCaminho(caminho, valor, n);
 	}
-	else if (tipo == guloso){}
-		//chama funcao guloso
+	else if (tipo == guloso){
+		metodo_guloso(matriz, n);
+	}
 	else if (tipo == genetico){
 		algoritmoGenetico(matriz, n);
 	}

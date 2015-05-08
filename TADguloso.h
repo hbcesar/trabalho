@@ -12,9 +12,10 @@ struct interface{
 
 typedef struct interface Interface;
 
-void alocarLista();
+Interface* alocarLista();
 Cidade* criarCidade(int n);
 Cidade* inserirLista(Interface* lista, Cidade* novo, int posicao);
-float calcularCusto(Cidade* a, Cidade* b, Cidade* c);
-float custoTotal(Interface* lista);
-void guloso(float** matriz, int n);
+float calcularCusto(float** matriz, Cidade* a, Cidade* b, Cidade* c);
+float custoTotal(Interface* lista, float** matriz);
+void metodo_guloso(float** matriz, int n);
+void liberarLista(Interface* lista);
