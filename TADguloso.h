@@ -1,3 +1,6 @@
+#ifndef __TADGULOSO_H_
+#define __TADGULOSO_H_
+
 struct cidade { 
 	int numero; 
 	struct cidade* prox; 
@@ -19,3 +22,5 @@ float calcularCusto(float** matriz, Cidade* a, Cidade* b, Cidade* c);
 float custoTotal(Interface* lista, float** matriz);
 void metodo_guloso(float** matriz, int n);
 void liberarLista(Interface* lista);
+
+#endif
