@@ -5,40 +5,6 @@
 #include "TADnn.h"
 #include "TADfuncoesComuns.h"
 
-void algoritmoGenetico(float** matriz, int n){
-	int i;
-	int* vet1;
-	int* vet2;
-	int** caminhos;
-	float valor1, valor2;
-	float menor1, menor2;
-
-	vet1 = nearestNeighbor(1, n, matriz, NULL);
-	vet2 = nearestNeighbor(n, n, matriz, NULL);
-
-	menor1 = custo(matriz, vet1, n);
-	menor2 = custo(matriz, vet2, n);
-
-	caminhos = criaFilhos(vet1, vet2, n);
-	mutacao(caminhos, n);
-
-	valor1 = custo(matriz, caminhos[0], n);
-	valor2 = custo(matriz, caminhos[1], n);
-
-	while (i<99 || ((valor1 < menor1) || (valor2 < menor2))){
-		caminhos = criaFilhos(caminhos[0], caminhos[1], n);
-		mutacao(caminhos, n);
-
-		valor1 = custo(matriz, caminhos[0], n);
-		valor2 = custo(matriz, caminhos[1], n);
-
-		i++;
-	}
-
-	imprimirCaminho(caminhos[0], valor1, n);
-	imprimirCaminho(caminhos[1], valor2, n);
-}
-
 void dividirVetor(int n, int* parte1, int* parte2){
 	if ((n % 3 == 0) || (n%3==1)){
 		(*parte1) = n/3;
@@ -47,6 +13,29 @@ void dividirVetor(int n, int* parte1, int* parte2){
 		(*parte1) = (n/3) + 1;
 		(*parte2) = n - (n/3);
 	}
+}
+
+void mutacao(int** filhos, int n){
+	int p1=0, p2=0;
+	int aux;
+
+	//seta rand de acordo com o tempo 
+	srand(time(NULL));
+	//evita que o rand retorne numeros iguais para p1 e p2
+	while( p1 == p2){
+		p1 = rand() % n;
+		p2 = rand() % n;
+	}
+
+	//faz mutacao no primeiro filho
+	aux = filhos[0][p1];
+	filhos[0][p1]=filhos[0][p2];
+	filhos[0][p2]=aux;
+
+	//faz mutacao no segundo filho
+	aux = filhos[1][p1];
+	filhos[1][p1]=filhos[1][p2];
+	filhos[1][p2]=aux;
 }
 
 int** criaFilhos(int* vet1, int* vet2, int n){
@@ -112,26 +101,53 @@ int** criaFilhos(int* vet1, int* vet2, int n){
 	lista_filhos[0]=filho1;
 	lista_filhos[1]=filho2;
 
+	//antes de retornar, apaga os vetores pais
+	free(vet1);
+	free(vet2);
+
 	return lista_filhos;
 }
 
-void mutacao(int** filhos, int n){
-	int p1=0, p2=0;
-	int aux;
+void algoritmoGenetico(float** matriz, int n){
+	int i;
+	int* vet1;
+	int* vet2;
+	int** caminhos;
+	float valor1, valor2;
+	float menor1, menor2;
 
-	srand(time(NULL));
-	while( p1 == p2){
-		p1 = rand() % n;
-		p2 = rand() % n;
+	//recebe o "melhor" caminho de NN
+	vet1 = nearestNeighbor(1, n, matriz, NULL);
+	vet2 = nearestNeighbor(n, n, matriz, NULL);
+
+	//calcula o custo do caminho recebido por NN
+	menor1 = custo(matriz, vet1, n);
+	menor2 = custo(matriz, vet2, n);
+
+	//faz a criação dos primeiros filhos e faz a mutacao dos mesmos
+	caminhos = criaFilhos(vet1, vet2, n);
+	mutacao(caminhos, n);
+
+	//calcula o custo do primeiro filho gerado
+	valor1 = custo(matriz, caminhos[0], n);
+	valor2 = custo(matriz, caminhos[1], n);
+
+	/*
+	 * entao entra em loop até que:
+	 * 1 - o numero de iterações exceda 100 ou
+	 * 2 - pelo menos um filho encontrado tenha valor total do percurso menor
+	 * do que encontrado pelo algoritmo NN
+	 */
+	while (i<99 || ((valor1 < menor1) || (valor2 < menor2))){
+		caminhos = criaFilhos(caminhos[0], caminhos[1], n);
+		mutacao(caminhos, n);
+
+		valor1 = custo(matriz, caminhos[0], n);
+		valor2 = custo(matriz, caminhos[1], n);
+
+		i++;
 	}
 
-	//faz mutacao no primeiro filho
-	aux = filhos[0][p1];
-	filhos[0][p1]=filhos[0][p2];
-	filhos[0][p2]=aux;
-
-	//faz mutacao no segundo filho
-	aux = filhos[1][p1];
-	filhos[1][p1]=filhos[1][p2];
-	filhos[1][p2]=aux;
+	imprimirCaminho(caminhos[0], valor1, n);
+	imprimirCaminho(caminhos[1], valor2, n);
 }

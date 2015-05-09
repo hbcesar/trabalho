@@ -51,6 +51,7 @@ void liberarMatriz(int n, float** matriz){
 	free(matriz);
 }
 
+//retorna o custo de um caminho (usando vetor)
 float custo(float** matriz, int* vetor, int n){
 	int i;
 	int a, b;
@@ -71,6 +72,7 @@ float custo(float** matriz, int* vetor, int n){
 
 }
 
+//imprime o caminho (usando vetor)
 void imprimirCaminho(int* caminho, float soma, int n){
 	int i;
 

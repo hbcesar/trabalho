@@ -4,6 +4,7 @@
 #include "TADfuncoesComuns.h"
 #include "TADguloso.h"
 
+//interface contendo ponteiro para primeiro e ultimo elemento da lista de cidades
 Interface* alocarLista(int n){
 	Interface* novo = (Interface*)malloc(sizeof(Interface));
 
@@ -14,6 +15,7 @@ Interface* alocarLista(int n){
 	return novo;
 }
 
+//cria novo nó para lista/cidade
 Cidade* criarCidade(int n){
 	Cidade* novo = (Cidade*)malloc(sizeof(Cidade));
 
@@ -23,23 +25,30 @@ Cidade* criarCidade(int n){
 	return novo;
 }
 
+//insere a nova cidade na lista dada posicao
 Cidade* inserirLista(Interface* lista, Cidade* novo, int posicao){
 	Cidade* aux = lista->primeira;
 	int i;
 
+	//para o caso do novo elemento a ser inserido vier a
+	//se tornar o primeiro da lista
 	if(posicao == 0){
 		novo->prox = aux;
 		lista->primeira = novo;
 		return lista->primeira;
 	}
 
+	//caso nao for o primeiro (se funcao nao retornou)
+	//percorre o ponteiro até posicao de insercao
 	for(i=0; i<posicao-1; i++){
 		aux = aux->prox;
 	}
 
+	//insere
 	novo->prox = aux->prox;
 	aux->prox = novo;
 
+	//caso o no seja inserido no final, atualiza interface lista
 	if(lista->ultima->prox != NULL)
 		lista->ultima = lista->ultima->prox;
 
@@ -50,10 +59,12 @@ float calcularCusto(float** matriz, Cidade* a, Cidade* b, Cidade* c){
 	int i=0, j=0;
 	float custo = 0;
 
+	//calcula custo de cidade A para B
 	i=a->numero;
 	j=b->numero;
 	custo = matriz[i][j];
 
+	//calcula custo de cidade B para C e soma com custo de A para B
 	i=b->numero;
 	j=c->numero;
 	custo = custo + matriz[i][j];
@@ -61,13 +72,14 @@ float calcularCusto(float** matriz, Cidade* a, Cidade* b, Cidade* c){
 	return custo;
 }
 
-float custoTotal(Interface* lista, float** matriz){
+float custoTotal(Interface* lista, float** matriz, int n){
 	float custo = 0.0;
-	int i=0,j=0;
+	int i=0,j=0, k;
 	Cidade* aux = lista->primeira;
 	Cidade* aux2 = aux->prox;
 
-	while(aux2->prox != NULL){
+	//percorre a lista toda somando o custo de uma cidade para outra
+	for(k=0; k<n-1; k++){
 		i=aux->numero;
 		j=aux2->numero;
 		custo = custo + matriz[i][j];
@@ -76,10 +88,8 @@ float custoTotal(Interface* lista, float** matriz){
 		aux2 = aux2->prox;
 	}
 
-	i=aux->numero;
-	j=aux2->numero;
-	custo = custo + matriz[i][j];
-
+	//ao final do loop calcula o custo para se retornar da ultima cidade da lista
+	//para a primeira
 	i=lista->ultima->numero;
 	j=lista->primeira->numero;
 	custo = custo + matriz[i][j];
@@ -112,13 +122,20 @@ void metodo_guloso(float** matriz, int n){
 	lista = alocarLista(n);
 
 	for(i=1; i<n-1; i++){
-		novo = criarCidade(i);
-		aux = lista->primeira;
+		novo = criarCidade(i); //cria no
+		aux = lista->primeira; //seta auxiliar para primeiro elemento da lista
 		aux2 = aux->prox;
 
+		//calcula custo caso a cidade seja a primeira/ultima da lista
 		menor = calcularCusto(matriz, lista->ultima, novo, lista->primeira);
 		j=0;
 
+		/*
+		 * entra em loop e calcula o custo caso a cidade seja inserida 
+		 * em posicoes intermediarias da lista
+		 * Importante demonstrar que o nó NAO é inserido na lista
+		 * até que se ache a melhor posicao a ser inserida
+		 */
 		while(aux2->prox != NULL){
 			custo = calcularCusto(matriz, aux, novo, aux2);
 			aux = aux2;
@@ -130,12 +147,15 @@ void metodo_guloso(float** matriz, int n){
 			j++;
 		}
 
+		//efetivamente insere o nó na lista
 		lista->primeira = inserirLista(lista, novo, posicao);
 	}
 
+	//retorna aux pro começo pra calcular o custo total final
 	aux = lista->primeira;
-	custo = custoTotal(lista, matriz);
+	custo = custoTotal(lista, matriz, n);
 	
+	//imprime o caminho e custo
 	while(aux!=NULL){
 	 	printf("%d \n",aux->numero);
 	 	aux = aux->prox;
@@ -144,6 +164,7 @@ void metodo_guloso(float** matriz, int n){
 	printf("%.2f \n",custo);
 	printf("*\n");
 
+	//libera a lista
 	liberarLista(lista);
 }
 

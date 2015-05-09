@@ -3,7 +3,10 @@
 #include <float.h>
 #include "TADfuncoesComuns.h"
 
-
+/* Essa funcao, além de calcular o menor valor em uma 
+ * dada linha da matriz, também retorna, via parametro passado, 
+ * o índice do menor valor.
+ */
 float menor(float* vetor, int n, int* indice_menor){
 	float menor = FLT_MAX;
 	int i;

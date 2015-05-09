@@ -17,11 +17,22 @@ void otima(int n, long int p, float** matriz){
 	}
 
  	visit(0, n, valor, permutacoes);
- 	//imprimeCombinacoes(permutacoes, n, p);
  	calcularOtima(matriz, permutacoes, n, p);
  	liberarVetores(permutacoes, valor, p);
 }
 
+/*
+ * A funcao a seguir cria todas as combinaçoes possiveis para numeros de 0 a n
+ * Essa função foi retirada de: 
+ * http://www.bearcave.com/random_hacks/permute.html (predominantemente)
+ * e http://newton.ex.ac.uk/teaching/resources/jmr/recursion.html
+ * A sacada dessa função está na variável estatica level,
+ * em cada chamada da recursão, a variavel assume um valor diferente
+ * e o fato de ser iniciada em -1 permite que o avanço do loop e renicio da "rodada" de recursoes
+ * crie novas permutacoes começando com 0, 1, ..., n.
+ * Toda vez que um caminho completo é criado (a primeira cidade nao é incluída no final como retorno)
+ * essa funcao chama a funcao addItem. Que por sua vez adiciona o vetor caminho a um vetor de vetores int.
+ */
 void visit(int k, int n, int* valor, int** permutacoes){
   	int i;
   	static int level = -1;
@@ -65,6 +76,7 @@ void addItem(int* vetor, int** permutacoes, int n){
   	permutacoes[indice++] = novo;
 }
 
+//percorre todo o vetor de permutacoes e descobre a menor
 void calcularOtima(float** matriz, int** permutacoes, int n, long int p){
 	int i, j, a, b;
 	float menor=FLT_MAX, soma =0;
@@ -90,6 +102,7 @@ void calcularOtima(float** matriz, int** permutacoes, int n, long int p){
 
 }
 
+//mesmo tendo muita memória e um sistema operacional bom eu vou liberar a memória prq sou um bom programador (ou nao)
 void liberarVetores(int** permutacoes, int* valor, long int p){
 	int i;
 
