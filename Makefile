@@ -1,5 +1,5 @@
 all: METODOS
-	./executavel 5 guloso < teste5.txt
+	./executavel 5000 nn < teste5000.txt
 
 METODOS:
 	gcc -c funcoesComuns.c

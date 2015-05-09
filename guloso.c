@@ -57,7 +57,7 @@ Cidade* inserirLista(Interface* lista, Cidade* novo, int posicao){
 
 float calcularCusto(float** matriz, Cidade* a, Cidade* b, Cidade* c){
 	int i=0, j=0;
-	float custo = 0;
+	float custo = 0.0;
 
 	//calcula custo de cidade A para B
 	i=a->numero;
@@ -140,11 +140,13 @@ void metodo_guloso(float** matriz, int n){
 			custo = calcularCusto(matriz, aux, novo, aux2);
 			aux = aux2;
 			aux2 = aux2->prox;
+			j++; //atualiza a variavel da posicao
+			
 			if(custo < menor){
 				posicao = j;
 				menor = custo;
 			}
-			j++;
+
 		}
 
 		//efetivamente insere o nó na lista
