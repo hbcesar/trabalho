@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <float.h>
 #include "TADalgoritmoGenetico.h"
 #include "TADnn.h"
 #include "TADfuncoesComuns.h"
@@ -109,12 +110,15 @@ int** criaFilhos(int* vet1, int* vet2, int n){
 }
 
 void algoritmoGenetico(float** matriz, int n){
-	int i;
+	int i=0;
 	int* vet1;
 	int* vet2;
 	int** caminhos;
 	float valor1, valor2;
 	float menor1, menor2;
+	float menor1_aux, menor2_aux;
+
+	menor1_aux = menor2_aux = FLT_MAX;
 
 	//recebe o "melhor" caminho de NN
 	vet1 = nearestNeighbor(1, n, matriz, NULL);
@@ -138,16 +142,38 @@ void algoritmoGenetico(float** matriz, int n){
 	 * 2 - pelo menos um filho encontrado tenha valor total do percurso menor
 	 * do que encontrado pelo algoritmo NN
 	 */
-	while (i<99 || ((valor1 < menor1) || (valor2 < menor2))){
-		caminhos = criaFilhos(caminhos[0], caminhos[1], n);
-		mutacao(caminhos, n);
+	while (i<99 && ((valor1 > menor1) || (valor1 > menor2) || (valor2 > menor1) || (valor2 > menor2))){
+		
+		//os dois ifs a seguir guardam o menor valor encontrado durante o loop
+		if(valor1 < menor1_aux){
+			menor1_aux = valor1;
+			vet1 = caminhos[0];
+		}
 
+		if(valor2 < menor2_aux){
+			menor2_aux = valor2;
+			vet2 = caminhos[1];
+		}
+
+		//faz cruzamento dos filhos
+		caminhos = criaFilhos(caminhos[0], caminhos[1], n);
+		//mutacao
+		mutacao(caminhos, n);
+		//e entao calcula o custo de ambos
 		valor1 = custo(matriz, caminhos[0], n);
 		valor2 = custo(matriz, caminhos[1], n);
 
-		i++;
+		i++; //atualiza variavel de parada
 	}
 
-	imprimirCaminho(caminhos[0], valor1, n);
-	imprimirCaminho(caminhos[1], valor2, n);
+	//imprime o caminho mais barato encontrado
+	if(menor1_aux < menor2_aux)
+		imprimirCaminho(vet1, menor1_aux, n);
+	else imprimirCaminho(vet2, menor2_aux, n);
+
+	//libera memória alocada pra galera toda
+	// (vet1 e vet2 ja foram desalocados)
+	free(caminhos[0]);
+	free(caminhos[1]);
+	free(caminhos);
 }

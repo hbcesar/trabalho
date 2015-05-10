@@ -1,5 +1,5 @@
 all: METODOS
-	./executavel 5000 nn < teste5000.txt
+	time ./executavel 500 genetico < teste500.txt
 
 METODOS:
 	gcc -c funcoesComuns.c
